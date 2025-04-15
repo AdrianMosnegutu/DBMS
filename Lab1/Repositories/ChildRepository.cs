@@ -13,7 +13,6 @@ namespace Lab1.Repositories
         private readonly string _tableName;
         private readonly DataSet _dataSet;
 
-        private readonly List<string> _columnNames;
         private readonly List<string> _columnParams;
 
         private readonly string _selectQuery;
@@ -35,9 +34,8 @@ namespace Lab1.Repositories
             _dataSet = dataSet;
             _tableName = tableName;
             
-            _columnNames = columnNames;
             _columnParams = columnNames.Select(columnName => $"@{columnName}").ToList();
-            string columnAssignments = string.Join(", ", _columnNames.Zip(_columnParams, (a, b) => $"{a} = {b}"));
+            string columnAssignments = string.Join(", ", columnNames.Zip(_columnParams, (a, b) => $"{a} = {b}"));
 
             _selectQuery = ConfigurationManager.AppSettings["SelectChildrenQuery"]
                 .Replace("{TableName}", _tableName)
@@ -49,7 +47,7 @@ namespace Lab1.Repositories
 
             _insertQuery = ConfigurationManager.AppSettings["InsertChildQuery"]
                 .Replace("{TableName}", tableName)
-                .Replace("{ColumnNames}", string.Join(", ", _columnNames))
+                .Replace("{ColumnNames}", string.Join(", ", columnNames))
                 .Replace("{ColumnParams}", string.Join(", ", _columnParams));
 
             _updateQuery = ConfigurationManager.AppSettings["UpdateChildQuery"]

@@ -11,16 +11,18 @@ namespace Lab1.Forms
     public partial class ChildDialogForm : Form
     {
         private readonly string _dialogTitle;
+        private readonly string _successMessage;
         private readonly List<string> _fieldNames;
         private readonly Action<List<string>> _buttonAction;
         private readonly List<string> _defaultValues;
 
-        public ChildDialogForm(string dialogTitle, Action<List<string>> buttonAction, List<string> defaultValues = null)
+        public ChildDialogForm(string dialogTitle, string successMessage, Action<List<string>> buttonAction, List<string> defaultValues = null)
         {
             InitializeComponent();
             this.Text = dialogTitle;
 
             _dialogTitle = dialogTitle;
+            _successMessage = successMessage;
             _fieldNames = AppService.ColumnNames;
             _buttonAction = buttonAction;
             _defaultValues = defaultValues;
@@ -50,6 +52,7 @@ namespace Lab1.Forms
             try
             {
                 _buttonAction(textBoxValues);
+                MessageBox.Show(_successMessage);
                 this.Close();
             }
             catch (Exception ex)

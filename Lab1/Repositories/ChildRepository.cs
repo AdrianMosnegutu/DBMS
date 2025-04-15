@@ -3,7 +3,6 @@ using System.Linq;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace Lab1.Repositories
 {

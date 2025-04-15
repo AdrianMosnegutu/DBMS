@@ -18,7 +18,7 @@ namespace Lab1.Repositories
             _dataSet = dataSet;
             _tableName = tableName;
 
-            _selectQuery = ConfigurationManager.AppSettings["SelectParentsQuery"].Replace("{TableName}", tableName);
+            _selectQuery = ConfigurationManager.AppSettings["SelectAllParentsQuery"].Replace("{TableName}", tableName);
         }
 
         public void LoadRecords()

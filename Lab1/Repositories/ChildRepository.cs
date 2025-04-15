@@ -3,6 +3,7 @@ using System.Linq;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Lab1.Repositories
 {
@@ -48,14 +49,17 @@ namespace Lab1.Repositories
                 .Replace("{PrimaryKeyName}", primaryKeyName);
 
             _insertQuery = ConfigurationManager.AppSettings["InsertChildQuery"]
+                .Replace("{TableName}", tableName)
                 .Replace("{ColumnNames}", string.Join(", ", _columnNames))
                 .Replace("{ColumnParams}", string.Join(", ", _columnParams));
 
             _updateQuery = ConfigurationManager.AppSettings["UpdateChildQuery"]
+                .Replace("{TableName}", tableName)
                 .Replace("{ColumnAssignments}", columnAssignments)
                 .Replace("{PrimaryKeyName}", primaryKeyName);
 
             _deleteQuery = ConfigurationManager.AppSettings["DeleteChildQuery"]
+                .Replace("{TableName}", tableName)
                 .Replace("{PrimaryKeyName}", primaryKeyName);
         }
 

@@ -41,7 +41,6 @@ namespace Lab1.Forms
             }
         }
 
-
         private void ExecuteButtonAction(object sender, EventArgs e)
         {
             List<string> textBoxValues = GetAllTextBoxes(this)
@@ -58,7 +57,6 @@ namespace Lab1.Forms
                 MessageBox.Show($"An error occurred while inserting: {ex.Message}");
             }
         }
-
 
         private void AddDynamicControls()
         {
@@ -122,7 +120,6 @@ namespace Lab1.Forms
 
             this.Controls.Add(layoutPanel);
         }
-
 
         private void AdjustFormSize()
         {

@@ -16,7 +16,6 @@ namespace Lab1.Services
         private static readonly string _childTableName = ConfigurationManager.AppSettings["ChildTableName"];
 
         private static readonly List<string> _columnNames = ConfigurationManager.AppSettings["ChildColumnNames"].Split(',').ToList();
-        private static readonly List<string> _columnParams = ConfigurationManager.AppSettings["ChildColumnParams"].Split(',').ToList();
 
         private static readonly string _primaryKey = ConfigurationManager.AppSettings["ChildPrimaryKey"];
         private static readonly string _foreignKey = ConfigurationManager.AppSettings["ParentPrimaryKey"];
@@ -35,8 +34,7 @@ namespace Lab1.Services
             ChildTableName, 
             _primaryKey, 
             ForeignKey, 
-            _columnNames,
-            _columnParams
+            _columnNames
         );
 
         public void LoadParentRecords(DataGridView dataGridView)

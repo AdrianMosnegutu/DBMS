@@ -28,8 +28,7 @@ namespace Lab1.Repositories
             string tableName,
             string primaryKeyName,
             string foreignKeyName,
-            List<string> columnNames,
-            List<string> columnParams
+            List<string> columnNames
         )
         {
             _connectionString = connectionString;
@@ -37,7 +36,7 @@ namespace Lab1.Repositories
             _tableName = tableName;
             
             _columnNames = columnNames;
-            _columnParams = columnParams;
+            _columnParams = columnNames.Select(columnName => $"@{columnName}").ToList();
             string columnAssignments = string.Join(", ", _columnNames.Zip(_columnParams, (a, b) => $"{a} = {b}"));
 
             _selectQuery = ConfigurationManager.AppSettings["SelectChildrenQuery"]

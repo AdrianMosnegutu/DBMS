@@ -16,8 +16,7 @@ namespace Lab1.Repositories
             string childTableName,
             string primaryKey, 
             string foreignKey, 
-            List<string> columnNames,
-            List<string> columnParams
+            List<string> columnNames
         )
         {
             _dataSet = new DataSet();
@@ -29,8 +28,7 @@ namespace Lab1.Repositories
                 childTableName, 
                 primaryKey, 
                 foreignKey, 
-                columnNames, 
-                columnParams
+                columnNames
             );
         }
     }

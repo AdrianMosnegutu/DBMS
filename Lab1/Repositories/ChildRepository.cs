@@ -13,10 +13,11 @@ namespace Lab1.Repositories
         private readonly string _tableName;
         private readonly DataSet _dataSet;
 
+        private readonly string _primaryKeyName;
+
         private readonly List<string> _columnParams;
 
         private readonly string _selectQuery;
-        private readonly string _selectSpecificQuery;
         private readonly string _insertQuery;
         private readonly string _updateQuery;
         private readonly string _deleteQuery;
@@ -34,16 +35,14 @@ namespace Lab1.Repositories
             _dataSet = dataSet;
             _tableName = tableName;
             
+            _primaryKeyName = primaryKeyName;
+            
             _columnParams = columnNames.Select(columnName => $"@{columnName}").ToList();
             string columnAssignments = string.Join(", ", columnNames.Zip(_columnParams, (a, b) => $"{a} = {b}"));
 
-            _selectQuery = ConfigurationManager.AppSettings["SelectChildrenQuery"]
+            _selectQuery = ConfigurationManager.AppSettings["SelectAllChildrenQuery"]
                 .Replace("{TableName}", _tableName)
                 .Replace("{ForeignKeyName}", foreignKeyName);
-
-            _selectSpecificQuery = ConfigurationManager.AppSettings["SelectChildQuery"]
-                .Replace("{TableName}", _tableName)
-                .Replace("{PrimaryKeyName}", primaryKeyName);
 
             _insertQuery = ConfigurationManager.AppSettings["InsertChildQuery"]
                 .Replace("{TableName}", tableName)
@@ -88,26 +87,7 @@ namespace Lab1.Repositories
 
         public DataRow GetRecord(int id)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-
-                using (SqlCommand selectCommand = new SqlCommand(_selectSpecificQuery, connection))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(selectCommand))
-                {
-                    selectCommand.Parameters.Add("@primaryKey", SqlDbType.Int).Value = id;
-
-                    DataTable table = new DataTable();
-                    adapter.Fill(table);
-
-                    if (table.Rows.Count > 0)
-                    {
-                        return table.Rows[0];
-                    }
-
-                    return null;
-                }
-            }
+            return _dataSet.Tables[_tableName].AsEnumerable().First(row => row.Field<int>(_primaryKeyName) == id);
         }
 
         public int InsertRecord(List<string> values)

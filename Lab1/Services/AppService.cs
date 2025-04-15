@@ -1,10 +1,10 @@
-﻿using System.Data;
-using System.Linq;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Linq;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Collections.Generic;
 using Lab1.Forms;
 using Lab1.Repositories;
+using System.Data;
 
 namespace Lab1.Services
 {
@@ -19,7 +19,7 @@ namespace Lab1.Services
 
         private static readonly string _primaryKey = ConfigurationManager.AppSettings["ChildPrimaryKey"];
         private static readonly string _foreignKey = ConfigurationManager.AppSettings["ParentPrimaryKey"];
-
+        
         public static string ParentTableName => _parentTableName;
         public static string ChildTableName => _childTableName;
 
@@ -29,11 +29,11 @@ namespace Lab1.Services
         public static List<string> ColumnNames => _columnNames;
 
         private readonly AppRepository _repository = new AppRepository(
-            _connectionString,
-            ParentTableName,
-            ChildTableName,
-            _primaryKey,
-            ForeignKey,
+            _connectionString, 
+            ParentTableName, 
+            ChildTableName, 
+            _primaryKey, 
+            ForeignKey, 
             _columnNames
         );
 
@@ -64,14 +64,13 @@ namespace Lab1.Services
             void addChildRecordAction(List<string> values)
             {
                 values.Add(parentId.ToString());
-
+             
                 _repository.ChildRepository.InsertRecord(values);
                 LoadChildRecords(parentId, dataGridView);
             }
 
             ChildDialogForm addRecordDialog = new ChildDialogForm(
                 $"Add {ChildTableName}",
-                $"Successfully added a new {ChildTableName} record!",
                 addChildRecordAction
             );
 
@@ -89,16 +88,13 @@ namespace Lab1.Services
                 LoadChildRecords(parentId, dataGridView);
             }
 
-            List<string> defaultValues = _repository.ChildRepository.GetRecord(childId).ItemArray
-                .Skip(1)
-                .Select(item => item?.ToString() ?? string.Empty)
-                .ToList();
-
             ChildDialogForm updateRecordDialog = new ChildDialogForm(
                 $"Update {ChildTableName}",
-                $"Successfully updated the {ChildTableName} record with id {childId}!",
                 updateChildRecordAction,
-                defaultValues
+                _repository.ChildRepository.GetRecord(childId).ItemArray
+                    .Skip(1)
+                    .Select(item => item?.ToString() ?? string.Empty)
+                    .ToList()
             );
 
             updateRecordDialog.ShowDialog();

@@ -1,11 +1,11 @@
-﻿using System.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data;
 
 namespace Lab1.Repositories
 {
     internal class AppRepository
     {
-        private readonly DataSet _dataSet = new DataSet();
+        private readonly DataSet _dataSet;
 
         public ParentRepository ParentRepository { get; }
         public ChildRepository ChildRepository { get; }
@@ -19,6 +19,8 @@ namespace Lab1.Repositories
             List<string> columnNames
         )
         {
+            _dataSet = new DataSet();
+
             this.ParentRepository = new ParentRepository(connectionString, _dataSet, parentTableName);
             this.ChildRepository = new ChildRepository(
                 connectionString, 

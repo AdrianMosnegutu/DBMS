@@ -7,9 +7,12 @@ namespace Lab1.Services
 {
     internal class AppService
     {
-        public static string ConnectionString => "Data Source=PAJANGHINA;Initial Catalog=music_app;Integrated Security=True";
+        private const string _connectionString = 
+            "Data Source=PAJANGHINA;" +
+            "Initial Catalog=music_app;" +
+            "Integrated Security=True";
 
-        private readonly AppRepository _repository = new AppRepository();
+        private readonly AppRepository _repository = new AppRepository(_connectionString);
 
         public void LoadArtists(DataGridView artistDataGridView)
         {

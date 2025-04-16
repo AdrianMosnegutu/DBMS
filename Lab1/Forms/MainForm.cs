@@ -94,10 +94,5 @@ namespace Lab1
                 }
             }
         }
-
-        private void buttonsTableLayout_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

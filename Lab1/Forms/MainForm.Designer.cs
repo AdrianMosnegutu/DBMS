@@ -253,7 +253,6 @@
             this.buttonsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.buttonsTableLayout.Size = new System.Drawing.Size(573, 210);
             this.buttonsTableLayout.TabIndex = 2;
-            this.buttonsTableLayout.Paint += new System.Windows.Forms.PaintEventHandler(this.buttonsTableLayout_Paint);
             // 
             // deleteButton
             // 

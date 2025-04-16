@@ -9,10 +9,10 @@ namespace Lab1.Repositories
         public ArtistRepository ArtistRepository { get; }
         public AlbumRepository AlbumRepository { get; }
 
-        public AppRepository()
+        public AppRepository(string connectionString)
         {
-            this.ArtistRepository = new ArtistRepository(_dataSet);
-            this.AlbumRepository = new AlbumRepository(_dataSet);
+            this.ArtistRepository = new ArtistRepository(connectionString, _dataSet);
+            this.AlbumRepository = new AlbumRepository(connectionString, _dataSet);
         }
     }
 }

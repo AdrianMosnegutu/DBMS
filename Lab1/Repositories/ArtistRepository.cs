@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using Lab1.Services;
 
 namespace Lab1.Repositories
 {
@@ -9,21 +8,23 @@ namespace Lab1.Repositories
         private readonly string _connectionString;
         private readonly DataSet _dataSet;
 
-        public ArtistRepository(DataSet dataSet)
+        private readonly string _selectQuery = 
+            "SELECT * " +
+            "FROM artist";
+
+        public ArtistRepository(string connectionString, DataSet dataSet)
         {
-            _connectionString = AppService.ConnectionString;
+            _connectionString = connectionString;
             _dataSet = dataSet;
         }
 
         public void LoadRecords()
         {
-            const string query = "SELECT * FROM artist";
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                using (SqlCommand selectCommand = new SqlCommand(query, connection))
+                using (SqlCommand selectCommand = new SqlCommand(_selectQuery, connection))
                 using (SqlDataAdapter adapter = new SqlDataAdapter(selectCommand))
                 {
                     if (_dataSet.Tables.Contains("artist"))

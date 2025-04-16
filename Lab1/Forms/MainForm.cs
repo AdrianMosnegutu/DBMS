@@ -41,14 +41,15 @@ namespace Lab1
         {
             if (artistGridView.SelectedRows.Count == 1)
             {
-                DataGridViewRow selectedRow = artistGridView.SelectedRows[0];
+                DataGridViewRow selectedArtistRow = artistGridView.SelectedRows[0];
+                int selectedArtistId = int.Parse(selectedArtistRow.Cells["artist_id"].Value.ToString());
 
                 string title = titleTextBox.Text;
                 DateTime releaseDate = releaseDateTimePicker.Value;
-                int artistId = int.Parse(selectedRow.Cells["artist_id"].Value.ToString());
+                int artistId = (int)artistIdNumericInput.Value;
 
                 _service.AddAlbum(title, releaseDate, artistId);
-                _service.LoadAlbums(artistId, albumGridView);
+                _service.LoadAlbums(selectedArtistId, albumGridView);
                 ResetInputFields();
             }
         }

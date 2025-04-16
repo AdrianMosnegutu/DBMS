@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Data.SqlClient;
 
 namespace Lab1.Repositories

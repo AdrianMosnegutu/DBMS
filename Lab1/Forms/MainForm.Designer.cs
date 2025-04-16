@@ -76,7 +76,7 @@
             this.formTableLayout.RowCount = 2;
             this.formTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.66666F));
             this.formTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.formTableLayout.Size = new System.Drawing.Size(1169, 657);
+            this.formTableLayout.Size = new System.Drawing.Size(1229, 657);
             this.formTableLayout.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -91,7 +91,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(573, 425);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(603, 425);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // artistGridView
@@ -105,7 +105,7 @@
             this.artistGridView.ReadOnly = true;
             this.artistGridView.RowHeadersWidth = 51;
             this.artistGridView.RowTemplate.Height = 24;
-            this.artistGridView.Size = new System.Drawing.Size(567, 399);
+            this.artistGridView.Size = new System.Drawing.Size(597, 399);
             this.artistGridView.TabIndex = 1;
             this.artistGridView.SelectionChanged += new System.EventHandler(this.ArtistGridView_SelectChange);
             // 
@@ -126,12 +126,12 @@
             this.tableLayoutPanel2.Controls.Add(this.albumLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.albumGridView, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(587, 8);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(617, 8);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(574, 425);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(604, 425);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // albumLabel
@@ -155,7 +155,7 @@
             this.albumGridView.ReadOnly = true;
             this.albumGridView.RowHeadersWidth = 51;
             this.albumGridView.RowTemplate.Height = 24;
-            this.albumGridView.Size = new System.Drawing.Size(568, 399);
+            this.albumGridView.Size = new System.Drawing.Size(598, 399);
             this.albumGridView.TabIndex = 4;
             // 
             // tableLayoutPanel3
@@ -177,7 +177,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(573, 210);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(603, 210);
             this.tableLayoutPanel3.TabIndex = 5;
             // 
             // label3
@@ -187,9 +187,9 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(13, 136);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(196, 64);
+            this.label3.Size = new System.Drawing.Size(135, 64);
             this.label3.TabIndex = 4;
-            this.label3.Text = "Album Artist ID:";
+            this.label3.Text = "Artist ID:";
             // 
             // label2
             // 
@@ -198,9 +198,9 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(13, 73);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(196, 63);
+            this.label2.Size = new System.Drawing.Size(135, 63);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Album Release Date:";
+            this.label2.Text = "Release Date:";
             // 
             // label1
             // 
@@ -209,33 +209,33 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(13, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(196, 63);
+            this.label1.Size = new System.Drawing.Size(135, 63);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Album Title:";
+            this.label1.Text = "Title:";
             // 
             // titleTextBox
             // 
             this.titleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.titleTextBox.Location = new System.Drawing.Point(215, 13);
+            this.titleTextBox.Location = new System.Drawing.Point(154, 13);
             this.titleTextBox.Name = "titleTextBox";
-            this.titleTextBox.Size = new System.Drawing.Size(301, 27);
+            this.titleTextBox.Size = new System.Drawing.Size(412, 27);
             this.titleTextBox.TabIndex = 1;
             // 
             // releaseDateTimePicker
             // 
             this.releaseDateTimePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.releaseDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.releaseDateTimePicker.Location = new System.Drawing.Point(215, 76);
+            this.releaseDateTimePicker.Location = new System.Drawing.Point(154, 76);
             this.releaseDateTimePicker.Name = "releaseDateTimePicker";
-            this.releaseDateTimePicker.Size = new System.Drawing.Size(299, 27);
+            this.releaseDateTimePicker.Size = new System.Drawing.Size(412, 27);
             this.releaseDateTimePicker.TabIndex = 3;
             // 
             // artistIdNumericInput
             // 
             this.artistIdNumericInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.artistIdNumericInput.Location = new System.Drawing.Point(215, 139);
+            this.artistIdNumericInput.Location = new System.Drawing.Point(154, 139);
             this.artistIdNumericInput.Name = "artistIdNumericInput";
-            this.artistIdNumericInput.Size = new System.Drawing.Size(299, 27);
+            this.artistIdNumericInput.Size = new System.Drawing.Size(412, 27);
             this.artistIdNumericInput.TabIndex = 5;
             // 
             // buttonsTableLayout
@@ -245,13 +245,14 @@
             this.buttonsTableLayout.Controls.Add(this.deleteButton, 2, 0);
             this.buttonsTableLayout.Controls.Add(this.addButton, 0, 0);
             this.buttonsTableLayout.Controls.Add(this.updateButton, 1, 0);
-            this.buttonsTableLayout.Location = new System.Drawing.Point(587, 439);
+            this.buttonsTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonsTableLayout.Location = new System.Drawing.Point(617, 439);
             this.buttonsTableLayout.Name = "buttonsTableLayout";
             this.buttonsTableLayout.RowCount = 3;
             this.buttonsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.buttonsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.buttonsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.buttonsTableLayout.Size = new System.Drawing.Size(573, 210);
+            this.buttonsTableLayout.Size = new System.Drawing.Size(604, 210);
             this.buttonsTableLayout.TabIndex = 2;
             // 
             // deleteButton
@@ -260,7 +261,7 @@
             this.deleteButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deleteButton.Location = new System.Drawing.Point(3, 143);
             this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(567, 64);
+            this.deleteButton.Size = new System.Drawing.Size(598, 64);
             this.deleteButton.TabIndex = 3;
             this.deleteButton.Text = "Delete";
             this.deleteButton.UseVisualStyleBackColor = true;
@@ -272,7 +273,7 @@
             this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addButton.Location = new System.Drawing.Point(3, 3);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(567, 64);
+            this.addButton.Size = new System.Drawing.Size(598, 64);
             this.addButton.TabIndex = 0;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = true;
@@ -284,7 +285,7 @@
             this.updateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updateButton.Location = new System.Drawing.Point(3, 73);
             this.updateButton.Name = "updateButton";
-            this.updateButton.Size = new System.Drawing.Size(567, 64);
+            this.updateButton.Size = new System.Drawing.Size(598, 64);
             this.updateButton.TabIndex = 1;
             this.updateButton.Text = "Update";
             this.updateButton.UseVisualStyleBackColor = true;
@@ -294,7 +295,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1169, 657);
+            this.ClientSize = new System.Drawing.Size(1229, 657);
             this.Controls.Add(this.formTableLayout);
             this.Name = "MainForm";
             this.Text = "DBMS - Lab 1";

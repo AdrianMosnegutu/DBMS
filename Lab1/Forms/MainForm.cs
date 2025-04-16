@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows.Forms;
 using Lab1.Services;
 
@@ -13,68 +12,92 @@ namespace Lab1
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+        }
 
-            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
-
-            parentTableLabel.Text = $"{textInfo.ToTitleCase(AppService.ParentTableName)}s Table";
-            childTableLabel.Text = $"{textInfo.ToTitleCase(AppService.ChildTableName)}s Table";
+        private void ResetInputFields()
+        {
+            titleTextBox.Text = "New Album";
+            releaseDateTimePicker.Value = DateTime.Now;
+            artistIdNumericInput.Value = 1;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _service.LoadParentRecords(parentTableGridView);
+            ResetInputFields();
+            _service.LoadArtists(artistGridView);
         }
 
-        private void ParentTableGridView_SelectChanged(object sender, EventArgs e)
+        private void ArtistGridView_SelectChange(object sender, EventArgs e)
         {
-            if (parentTableGridView.SelectedRows.Count == 1)
+            if (artistGridView.SelectedRows.Count == 1)
             {
-                DataGridViewRow selectedRow = parentTableGridView.SelectedRows[0];
-                int parentId = int.Parse(selectedRow.Cells[AppService.ForeignKey].Value.ToString());
-                _service.LoadChildRecords(parentId, childTableGridView);
+                DataGridViewRow selectedRow = artistGridView.SelectedRows[0];
+                int artistId = int.Parse(selectedRow.Cells["artist_id"].Value.ToString());
+                _service.LoadAlbums(artistId, albumGridView);
             }
         }
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            if (parentTableGridView.SelectedRows.Count == 1)
+            if (artistGridView.SelectedRows.Count == 1)
             {
-                DataGridViewRow selectedRow = parentTableGridView.SelectedRows[0];
-                int parentId = int.Parse(selectedRow.Cells[AppService.ForeignKey].Value.ToString());
-                _service.OpenAddChildRecordDialogForm(parentId, childTableGridView);
+                DataGridViewRow selectedRow = artistGridView.SelectedRows[0];
+
+                string title = titleTextBox.Text;
+                DateTime releaseDate = releaseDateTimePicker.Value;
+                int artistId = int.Parse(selectedRow.Cells["artist_id"].Value.ToString());
+
+                _service.AddAlbum(title, releaseDate, artistId);
+                _service.LoadAlbums(artistId, albumGridView);
+                ResetInputFields();
             }
         }
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
-            if (parentTableGridView.SelectedRows.Count == 1)
+            if (artistGridView.SelectedRows.Count == 1)
             {
-                DataGridViewRow selectedParentRow = parentTableGridView.SelectedRows[0];
-                int parentId = int.Parse(selectedParentRow.Cells[AppService.ForeignKey].Value.ToString());
+                DataGridViewRow selectedArtistRow = artistGridView.SelectedRows[0];
+                int selectedArtistId = int.Parse(selectedArtistRow.Cells["artist_id"].Value.ToString());
 
-                if (childTableGridView.SelectedRows.Count == 1)
+                if (albumGridView.SelectedRows.Count == 1)
                 {
-                    DataGridViewRow selectedChildRow = childTableGridView.SelectedRows[0];
-                    int childId = int.Parse(selectedChildRow.Cells[AppService.PrimaryKey].Value.ToString());
-                    _service.OpenUpdateChildRecordDialogForm(parentId, childId, childTableGridView);
+                    DataGridViewRow selectedAlbumRow = albumGridView.SelectedRows[0];
+
+                    int albumId = int.Parse(selectedAlbumRow.Cells["album_id"].Value.ToString());
+                    string title = titleTextBox.Text;
+                    DateTime releaseDate = releaseDateTimePicker.Value;
+                    int artistId = (int)artistIdNumericInput.Value;
+
+                    _service.UpdateAlbum(albumId, title, releaseDate, artistId);
+                    _service.LoadAlbums(selectedArtistId, albumGridView);
+                    ResetInputFields();
                 }
             }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
         {
-            if (parentTableGridView.SelectedRows.Count == 1)
+            if (artistGridView.SelectedRows.Count == 1)
             {
-                DataGridViewRow selectedParentRow = parentTableGridView.SelectedRows[0];
-                int parentId = int.Parse(selectedParentRow.Cells[AppService.ForeignKey].Value.ToString());
+                DataGridViewRow selectedArtistRow = artistGridView.SelectedRows[0];
+                int artistId = int.Parse(selectedArtistRow.Cells["artist_id"].Value.ToString());
 
-                if (childTableGridView.SelectedRows.Count == 1)
+                if (albumGridView.SelectedRows.Count == 1)
                 {
-                    DataGridViewRow selectedChildRow = childTableGridView.SelectedRows[0];
-                    int childId = int.Parse(selectedChildRow.Cells[AppService.PrimaryKey].Value.ToString());
-                    _service.DeleteChildRecord(parentId, childId, childTableGridView);
+                    DataGridViewRow selectedAlbumRow = albumGridView.SelectedRows[0];
+                    int albumId = int.Parse(selectedAlbumRow.Cells["album_id"].Value.ToString());
+
+                    _service.DeleteAlbum(albumId);
+                    _service.LoadAlbums(artistId, albumGridView);
+                    ResetInputFields();
                 }
             }
+        }
+
+        private void buttonsTableLayout_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

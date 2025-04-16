@@ -1,35 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 
 namespace Lab1.Repositories
 {
     internal class AppRepository
     {
-        private readonly DataSet _dataSet;
+        private readonly DataSet _dataSet = new DataSet();
 
-        public ParentRepository ParentRepository { get; }
-        public ChildRepository ChildRepository { get; }
+        public ArtistRepository ArtistRepository { get; }
+        public AlbumRepository AlbumRepository { get; }
 
-        public AppRepository(
-            string connectionString, 
-            string parentTableName, 
-            string childTableName,
-            string primaryKey, 
-            string foreignKey, 
-            List<string> columnNames
-        )
+        public AppRepository()
         {
-            _dataSet = new DataSet();
-
-            this.ParentRepository = new ParentRepository(connectionString, _dataSet, parentTableName);
-            this.ChildRepository = new ChildRepository(
-                connectionString, 
-                _dataSet, 
-                childTableName, 
-                primaryKey, 
-                foreignKey, 
-                columnNames
-            );
+            this.ArtistRepository = new ArtistRepository(_dataSet);
+            this.AlbumRepository = new AlbumRepository(_dataSet);
         }
     }
 }

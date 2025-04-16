@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using Lab1.Services;
+using Lab2.Services;
 
-namespace Lab1.Forms
+namespace Lab2.Forms
 {
     public partial class ChildDialogForm : Form
     {
@@ -85,8 +85,10 @@ namespace Lab1.Forms
                 string field = _fieldNames[index];
                 string defaultValue = _defaultValues?[index] ?? "";
 
-                if (field == AppService.ForeignKey)
-                    continue;
+                //if (field == AppService.ForeignKey)
+                //{
+                //    continue;
+                //}
 
                 Label label = new Label
                 {

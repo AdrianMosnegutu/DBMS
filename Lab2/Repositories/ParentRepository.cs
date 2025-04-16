@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace Lab1.Repositories
+namespace Lab2.Repositories
 {
     internal class ParentRepository
     {

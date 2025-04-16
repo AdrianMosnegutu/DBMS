@@ -47,9 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ChildDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChildDialogForm.Designer.cs">
+      <DependentUpon>ChildDialogForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\AppRepository.cs" />
-    <Compile Include="Repositories\AlbumRepository.cs" />
-    <Compile Include="Repositories\ArtistRepository.cs" />
+    <Compile Include="Repositories\ChildRepository.cs" />
+    <Compile Include="Repositories\ParentRepository.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

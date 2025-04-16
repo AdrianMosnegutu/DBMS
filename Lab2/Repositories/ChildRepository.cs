@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 
-namespace Lab1.Repositories
+namespace Lab2.Repositories
 {
     internal class ChildRepository
     {

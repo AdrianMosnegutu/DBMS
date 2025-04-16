@@ -1,4 +1,4 @@
-﻿namespace Lab1.Forms
+﻿namespace Lab2.Forms
 {
     partial class ChildDialogForm
     {

@@ -1,113 +1,109 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.SqlClient;
 using System.Windows.Forms;
-using System.Configuration;
-using System.Collections.Generic;
-using Lab1.Forms;
 using Lab1.Repositories;
-using System.Data;
 
 namespace Lab1.Services
 {
     internal class AppService
     {
-        private static readonly string _connectionString = ConfigurationManager.ConnectionStrings["Connection"].ConnectionString;
+        public static string ConnectionString => "Data Source=PAJANGHINA;Initial Catalog=music_app;Integrated Security=True";
 
-        private static readonly string _parentTableName = ConfigurationManager.AppSettings["ParentTableName"];
-        private static readonly string _childTableName = ConfigurationManager.AppSettings["ChildTableName"];
+        private readonly AppRepository _repository = new AppRepository();
 
-        private static readonly List<string> _columnNames = ConfigurationManager.AppSettings["ChildColumnNames"].Split(',').ToList();
-
-        private static readonly string _primaryKey = ConfigurationManager.AppSettings["ChildPrimaryKey"];
-        private static readonly string _foreignKey = ConfigurationManager.AppSettings["ParentPrimaryKey"];
-        
-        public static string ParentTableName => _parentTableName;
-        public static string ChildTableName => _childTableName;
-
-        public static string PrimaryKey => _primaryKey;
-        public static string ForeignKey => _foreignKey;
-
-        public static List<string> ColumnNames => _columnNames;
-
-        private readonly AppRepository _repository = new AppRepository(
-            _connectionString, 
-            ParentTableName, 
-            ChildTableName, 
-            _primaryKey, 
-            ForeignKey, 
-            _columnNames
-        );
-
-        public void LoadParentRecords(DataGridView dataGridView)
+        public void LoadArtists(DataGridView artistDataGridView)
         {
-            _repository.ParentRepository.LoadRecords();
-            dataGridView.DataSource = _repository.ParentRepository.GetRecords();
-
-            if (dataGridView.Rows.Count > 0)
+            try
             {
-                dataGridView.Rows[0].Selected = true;
+                _repository.ArtistRepository.LoadRecords();
+                artistDataGridView.DataSource = _repository.ArtistRepository.GetRecords();
+
+                if (artistDataGridView.Rows.Count > 0)
+                {
+                    artistDataGridView.Rows[0].Selected = true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Error loading artists: {ex.Message}", "Load Artists Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Load Artists Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void LoadChildRecords(int parentId, DataGridView dataGridView)
+        public void LoadAlbums(int artistId, DataGridView albumDataGridView)
         {
-            _repository.ChildRepository.LoadRecords(parentId);
-            dataGridView.DataSource = _repository.ChildRepository.GetRecords();
-
-            if (dataGridView.Rows.Count > 0)
+            try
             {
-                dataGridView.Rows[0].Selected = true;
+                _repository.AlbumRepository.LoadRecords(artistId);
+                albumDataGridView.DataSource = _repository.AlbumRepository.GetRecords();
+
+                if (albumDataGridView.Rows.Count > 0)
+                {
+                    albumDataGridView.Rows[0].Selected = true;
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Error loading albums: {ex.Message}", "Load Albums Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Load Albums Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        public void OpenAddChildRecordDialogForm(int parentId, DataGridView dataGridView)
+        public void AddAlbum(string title, DateTime releaseDate, int artistId)
         {
-            void addChildRecordAction(List<string> values)
+            try
             {
-                values.Add(parentId.ToString());
-             
-                _repository.ChildRepository.InsertRecord(values);
-                LoadChildRecords(parentId, dataGridView);
+                _repository.AlbumRepository.InsertRecord(title, releaseDate, artistId);
+                MessageBox.Show("Successfully added album!", "Added Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            ChildDialogForm addRecordDialog = new ChildDialogForm(
-                $"Add {ChildTableName}",
-                $"Successfully added a new {ChildTableName} record!",
-                addChildRecordAction
-            );
-
-            addRecordDialog.ShowDialog();
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Error adding album: {ex.Message}", "Add Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Add Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        public void OpenUpdateChildRecordDialogForm(int parentId, int childId, DataGridView dataGridView)
+        public void UpdateAlbum(int albumId, string title, DateTime releaseDate, int artistId)
         {
-            void updateChildRecordAction(List<string> values)
+            try
             {
-                values.Prepend(childId.ToString());
-                values.Add(parentId.ToString());
-
-                _repository.ChildRepository.UpdateRecord(childId, values);
-                LoadChildRecords(parentId, dataGridView);
+                _repository.AlbumRepository.UpdateRecord(albumId, title, releaseDate, artistId);
+                MessageBox.Show($"Successfully updated album #{albumId}!", "Updated Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            List<string> defaultValues = _repository.ChildRepository.GetRecord(childId).ItemArray
-                .Skip(1)
-                .Select(item => item?.ToString() ?? string.Empty)
-                .ToList();
-
-            ChildDialogForm updateRecordDialog = new ChildDialogForm(
-                $"Update {ChildTableName}",
-                $"Successfully updated the {ChildTableName} record with id {childId}!",
-                updateChildRecordAction,
-                defaultValues
-            );
-
-            updateRecordDialog.ShowDialog();
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Error updating album: {ex.Message}", "Update Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Update Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
-        public void DeleteChildRecord(int parentId, int childId, DataGridView dataGridView)
+        public void DeleteAlbum(int albumId)
         {
-            _repository.ChildRepository.DeleteRecord(childId);
-            LoadChildRecords(parentId, dataGridView);
+            try
+            {
+                _repository.AlbumRepository.DeleteRecord(albumId);
+                MessageBox.Show($"Successfully deleted album #{albumId}!", "Deleted Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show($"Error deleting album: {ex.Message}", "Delete Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Delete Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

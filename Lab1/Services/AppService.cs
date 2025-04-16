@@ -7,9 +7,12 @@ namespace Lab1.Services
 {
     internal class AppService
     {
-        public static string ConnectionString => "Data Source=PAJANGHINA;Initial Catalog=music_app;Integrated Security=True";
+        private const string _connectionString = 
+            "Data Source=PAJANGHINA;" +
+            "Initial Catalog=music_app;" +
+            "Integrated Security=True";
 
-        private readonly AppRepository _repository = new AppRepository();
+        private readonly AppRepository _repository = new AppRepository(_connectionString);
 
         public void LoadArtists(DataGridView artistDataGridView)
         {
@@ -25,11 +28,21 @@ namespace Lab1.Services
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error loading artists: {ex.Message}", "Load Artists Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error loading artists: {ex.Message}",
+                    "Load Artists Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Load Artists Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}", 
+                    "Load Artists Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -47,11 +60,21 @@ namespace Lab1.Services
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error loading albums: {ex.Message}", "Load Albums Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error loading albums: {ex.Message}", 
+                    "Load Albums Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Load Albums Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}",
+                    "Load Albums Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -60,15 +83,30 @@ namespace Lab1.Services
             try
             {
                 _repository.AlbumRepository.InsertRecord(title, releaseDate, artistId);
-                MessageBox.Show("Successfully added album!", "Added Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Successfully added album!",
+                    "Added Album",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error adding album: {ex.Message}", "Add Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error adding album: {ex.Message}",
+                    "Add Album Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Add Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}",
+                    "Add Album Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -77,15 +115,30 @@ namespace Lab1.Services
             try
             {
                 _repository.AlbumRepository.UpdateRecord(albumId, title, releaseDate, artistId);
-                MessageBox.Show($"Successfully updated album #{albumId}!", "Updated Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    $"Successfully updated album #{albumId}!",
+                    "Updated Album",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error updating album: {ex.Message}", "Update Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error updating album: {ex.Message}", 
+                    "Update Album Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Update Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}", 
+                    "Update Album Error", 
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -94,15 +147,30 @@ namespace Lab1.Services
             try
             {
                 _repository.AlbumRepository.DeleteRecord(albumId);
-                MessageBox.Show($"Successfully deleted album #{albumId}!", "Deleted Album", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                    $"Successfully deleted album #{albumId}!",
+                    "Deleted Album",
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Information
+                );
             }
             catch (SqlException ex)
             {
-                MessageBox.Show($"Error deleting album: {ex.Message}", "Delete Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"Error deleting album: {ex.Message}", 
+                    "Delete Album Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An unexpected error occurred: {ex.Message}", "Delete Album Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    $"An unexpected error occurred: {ex.Message}", 
+                    "Delete Album Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

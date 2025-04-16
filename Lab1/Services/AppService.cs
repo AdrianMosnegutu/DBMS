@@ -71,6 +71,7 @@ namespace Lab1.Services
 
             ChildDialogForm addRecordDialog = new ChildDialogForm(
                 $"Add {ChildTableName}",
+                $"Successfully added a new {ChildTableName} record!",
                 addChildRecordAction
             );
 
@@ -88,13 +89,16 @@ namespace Lab1.Services
                 LoadChildRecords(parentId, dataGridView);
             }
 
+            List<string> defaultValues = _repository.ChildRepository.GetRecord(childId).ItemArray
+                .Skip(1)
+                .Select(item => item?.ToString() ?? string.Empty)
+                .ToList();
+
             ChildDialogForm updateRecordDialog = new ChildDialogForm(
                 $"Update {ChildTableName}",
+                $"Successfully updated the {ChildTableName} record with id {childId}!",
                 updateChildRecordAction,
-                _repository.ChildRepository.GetRecord(childId).ItemArray
-                    .Skip(1)
-                    .Select(item => item?.ToString() ?? string.Empty)
-                    .ToList()
+                defaultValues
             );
 
             updateRecordDialog.ShowDialog();

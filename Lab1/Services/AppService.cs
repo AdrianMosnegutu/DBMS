@@ -1,25 +1,29 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Windows.Forms;
-using Lab1.Repositories;
-
-namespace Lab1.Services
+﻿namespace Lab1.Services
 {
+    using System;
+    using System.Windows.Forms;
+    using Lab1.Constants;
+    using Lab1.Repositories;
+    using Lab1.UI.Helpers;
+    using Microsoft.Data.SqlClient;
+
+    /// <summary>
+    /// Provides services for managing artists and albums in the application.
+    /// </summary>
     internal class AppService
     {
-        private const string _connectionString = 
-            "Data Source=PAJANGHINA;" +
-            "Initial Catalog=music_app;" +
-            "Integrated Security=True";
+        private readonly AppRepository repository = new(AppConstants.ConnectionString);
 
-        private readonly AppRepository _repository = new AppRepository(_connectionString);
-
+        /// <summary>
+        /// Loads the list of artists into the specified DataGridView.
+        /// </summary>
+        /// <param name="artistDataGridView">The DataGridView to populate with artist data.</param>
         public void LoadArtists(DataGridView artistDataGridView)
         {
             try
             {
-                _repository.ArtistRepository.LoadRecords();
-                artistDataGridView.DataSource = _repository.ArtistRepository.GetRecords();
+                this.repository.ArtistRepository.LoadRecords();
+                artistDataGridView.DataSource = this.repository.ArtistRepository.Records;
 
                 if (artistDataGridView.Rows.Count > 0)
                 {
@@ -28,30 +32,25 @@ namespace Lab1.Services
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(
-                    $"Error loading artists: {ex.Message}",
-                    "Load Artists Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Load Artists Error", $"Error loading artists: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An unexpected error occurred: {ex.Message}", 
-                    "Load Artists Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Load Artists Error", $"An unexpected error occurred: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Loads the list of albums for a specific artist into the specified DataGridView.
+        /// </summary>
+        /// <param name="artistId">The ID of the artist whose albums are to be loaded.</param>
+        /// <param name="albumDataGridView">The DataGridView to populate with album data.</param>
         public void LoadAlbums(int artistId, DataGridView albumDataGridView)
         {
             try
             {
-                _repository.AlbumRepository.LoadRecords(artistId);
-                albumDataGridView.DataSource = _repository.AlbumRepository.GetRecords();
+                this.repository.AlbumRepository.LoadRecords(artistId);
+                albumDataGridView.DataSource = this.repository.AlbumRepository.Records;
 
                 if (albumDataGridView.Rows.Count > 0)
                 {
@@ -60,117 +59,79 @@ namespace Lab1.Services
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(
-                    $"Error loading albums: {ex.Message}", 
-                    "Load Albums Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Load Albums Error", $"Error loading albums: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An unexpected error occurred: {ex.Message}",
-                    "Load Albums Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Load Albums Error", $"An unexpected error occurred: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Adds a new album to the database.
+        /// </summary>
+        /// <param name="title">The title of the album.</param>
+        /// <param name="releaseDate">The release date of the album.</param>
+        /// <param name="artistId">The ID of the artist associated with the album.</param>
         public void AddAlbum(string title, DateTime releaseDate, int artistId)
         {
             try
             {
-                _repository.AlbumRepository.InsertRecord(title, releaseDate, artistId);
-                MessageBox.Show(
-                    "Successfully added album!",
-                    "Added Album",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                this.repository.AlbumRepository.InsertRecord(title, releaseDate, artistId);
+                MessageBoxHelper.ShowInfoBox("Added Album", "Successfully added album!");
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(
-                    $"Error adding album: {ex.Message}",
-                    "Add Album Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Add Album Error", $"Error adding album: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An unexpected error occurred: {ex.Message}",
-                    "Add Album Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Add Album Error", $"An unexpected error occurred: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Updates an existing album in the database.
+        /// </summary>
+        /// <param name="albumId">The ID of the album to update.</param>
+        /// <param name="title">The new title of the album.</param>
+        /// <param name="releaseDate">The new release date of the album.</param>
+        /// <param name="artistId">The ID of the artist associated with the album.</param>
         public void UpdateAlbum(int albumId, string title, DateTime releaseDate, int artistId)
         {
             try
             {
-                _repository.AlbumRepository.UpdateRecord(albumId, title, releaseDate, artistId);
-                MessageBox.Show(
-                    $"Successfully updated album #{albumId}!",
-                    "Updated Album",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                this.repository.AlbumRepository.UpdateRecord(albumId, title, releaseDate, artistId);
+                MessageBoxHelper.ShowInfoBox("Updated Album", $"Successfully updated album #{albumId}!");
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(
-                    $"Error updating album: {ex.Message}", 
-                    "Update Album Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Update Album Error", $"Error updating album: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An unexpected error occurred: {ex.Message}", 
-                    "Update Album Error", 
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Update Album Error", $"An unexpected error occurred: {ex.Message}");
             }
         }
 
+        /// <summary>
+        /// Deletes an album from the database.
+        /// </summary>
+        /// <param name="albumId">The ID of the album to delete.</param>
         public void DeleteAlbum(int albumId)
         {
             try
             {
-                _repository.AlbumRepository.DeleteRecord(albumId);
-                MessageBox.Show(
-                    $"Successfully deleted album #{albumId}!",
-                    "Deleted Album",
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Information
-                );
+                this.repository.AlbumRepository.DeleteRecord(albumId);
+                MessageBoxHelper.ShowInfoBox("Deleted Album", $"Successfully deleted album #{albumId}!");
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(
-                    $"Error deleting album: {ex.Message}", 
-                    "Delete Album Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Delete Album Error", $"Error deleting album: {ex.Message}");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"An unexpected error occurred: {ex.Message}", 
-                    "Delete Album Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBoxHelper.ShowErrorBox("Delete Album Error", $"An unexpected error occurred: {ex.Message}");
             }
         }
     }

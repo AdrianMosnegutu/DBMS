@@ -1,122 +1,104 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-
-namespace Lab1.Repositories
+﻿namespace Lab1.Repositories
 {
-    internal class AlbumRepository
+    using System;
+    using System.Data;
+    using Lab1.Constants;
+    using Microsoft.Data.SqlClient;
+
+    /// <summary>
+    /// Repository class for managing album records in the database.
+    /// </summary>
+    internal class AlbumRepository(string connectionString, DataSet dataSet)
     {
-        private readonly string _connectionString;
-        private readonly DataSet _dataSet;
+        /// <summary>
+        /// Gets the DataTable containing the records from the "album" table.
+        /// </summary>
+        public DataTable Records => dataSet.Tables["album"];
 
-        private readonly string _selectQuery = 
-            "SELECT * " +
-            "FROM album " +
-            "WHERE artist_id = @artistId";
-
-        private readonly string _insertQuery = 
-            "INSERT INTO album " +
-            "(title, release_date, artist_id) " +
-            "VALUES " +
-            "(@title, @releaseDate, @artistId)";
-
-        private readonly string _updateQuery = 
-            "UPDATE album SET " +
-            "title = @title, " +
-            "release_date = @releaseDate, " +
-            "artist_id = @artistId " +
-            "WHERE album_id = @albumId";
-
-        private readonly string _deleteQuery =
-            "DELETE FROM album " +
-            "WHERE album_id = @albumId";
-
-        public AlbumRepository(string connectionString, DataSet dataSet)
-        {
-            _connectionString = connectionString;
-            _dataSet = dataSet;
-        }
-
+        /// <summary>
+        /// Loads album records for a specific artist into the dataset.
+        /// </summary>
+        /// <param name="artistId">The ID of the artist whose albums to load.</param>
         public void LoadRecords(int artistId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+
+            using SqlCommand selectCommand = new(SqlQueryConstants.SelectAlbumsByArtistIdQuery, connection);
+            selectCommand.Parameters.Add("@artistId", SqlDbType.Int).Value = artistId;
+
+            if (dataSet.Tables.Contains("album"))
             {
-                connection.Open();
-
-                using (SqlCommand selectCommand = new SqlCommand(_selectQuery, connection))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(selectCommand))
-                {
-                    selectCommand.Parameters.Add("@artistId", SqlDbType.Int).Value = artistId;
-
-                    if (_dataSet.Tables.Contains("album"))
-                    {
-                        _dataSet.Tables["album"].Clear();
-                    }
-
-                    adapter.Fill(_dataSet, "album");
-                }
+                dataSet.Tables["album"].Clear();
             }
+
+            using SqlDataAdapter adapter = new(selectCommand);
+            adapter.Fill(dataSet, "album");
         }
 
-        public DataTable GetRecords()
-        {
-            return _dataSet.Tables["album"];
-        }
-
+        /// <summary>
+        /// Inserts a new album record into the database.
+        /// </summary>
+        /// <param name="title">The title of the album.</param>
+        /// <param name="releaseDate">The release date of the album.</param>
+        /// <param name="artistId">The ID of the artist associated with the album.</param>
+        /// <returns>The number of rows affected.</returns>
         public int InsertRecord(string title, DateTime releaseDate, int artistId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
 
-                using (SqlCommand insertCommand = new SqlCommand(_insertQuery , connection))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(insertCommand))
-                {
-                    insertCommand.Parameters.Add("@title", SqlDbType.VarChar, 50).Value = title;
-                    insertCommand.Parameters.Add("@releaseDate", SqlDbType.DateTime).Value = releaseDate;
-                    insertCommand.Parameters.Add("@artistId", SqlDbType.Int).Value = artistId;
+            using SqlCommand insertCommand = new(SqlQueryConstants.InsertAlbumQuery, connection);
+            insertCommand.Parameters.AddRange([
+               new SqlParameter("@title", SqlDbType.VarChar, 50) { Value = title },
+               new SqlParameter("@releaseDate", SqlDbType.DateTime) { Value = releaseDate },
+               new SqlParameter("@artistId", SqlDbType.Int) { Value = artistId }
+            ]);
 
-                    int affectedRows = insertCommand.ExecuteNonQuery();
-                    return affectedRows;
-                }
-            }
+            int affectedRows = insertCommand.ExecuteNonQuery();
+            return affectedRows;
         }
 
+        /// <summary>
+        /// Updates an existing album record in the database.
+        /// </summary>
+        /// <param name="albumId">The ID of the album to update.</param>
+        /// <param name="title">The new title of the album.</param>
+        /// <param name="releaseDate">The new release date of the album.</param>
+        /// <param name="artistId">The new artist ID associated with the album.</param>
+        /// <returns>The number of rows affected.</returns>
         public int UpdateRecord(int albumId, string title, DateTime releaseDate, int artistId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
 
-                using (SqlCommand updateCommand = new SqlCommand(_updateQuery, connection))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(updateCommand))
-                {
-                    updateCommand.Parameters.Add("@title", SqlDbType.VarChar, 50).Value = title;
-                    updateCommand.Parameters.Add("@releaseDate", SqlDbType.DateTime).Value = releaseDate;
-                    updateCommand.Parameters.Add("@artistId", SqlDbType.Int).Value = artistId;
-                    updateCommand.Parameters.Add("@albumId", SqlDbType.Int).Value = albumId;
+            using SqlCommand updateCommand = new(SqlQueryConstants.UpdateAlbumQuery, connection);
+            updateCommand.Parameters.AddRange([
+                new SqlParameter("@albumId", SqlDbType.Int) { Value = albumId },
+                new SqlParameter("@title", SqlDbType.VarChar, 50) { Value = title },
+                new SqlParameter("@releaseDate", SqlDbType.DateTime) { Value = releaseDate },
+                new SqlParameter("@artistId", SqlDbType.Int) { Value = artistId },
+            ]);
 
-                    int affectedRows = updateCommand.ExecuteNonQuery();
-                    return affectedRows;
-                }
-            }
+            int affectedRows = updateCommand.ExecuteNonQuery();
+            return affectedRows;
         }
 
+        /// <summary>
+        /// Deletes an album record from the database.
+        /// </summary>
+        /// <param name="albumId">The ID of the album to delete.</param>
+        /// <returns>The number of rows affected.</returns>
         public int DeleteRecord(int albumId)
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
 
-                using (SqlCommand deleteCommand = new SqlCommand(_deleteQuery, connection))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(deleteCommand))
-                {
-                    deleteCommand.Parameters.Add("@albumId", SqlDbType.Int).Value = albumId;
+            using SqlCommand deleteCommand = new(SqlQueryConstants.DeleteAlbumByIdQuery, connection);
+            deleteCommand.Parameters.Add("@albumId", SqlDbType.Int).Value = albumId;
 
-                    int affectedRows = deleteCommand.ExecuteNonQuery();
-                    return affectedRows;
-                }
-            }
+            int affectedRows = deleteCommand.ExecuteNonQuery();
+            return affectedRows;
         }
     }
 }

@@ -11,6 +11,7 @@
         public const string ConnectionString =
             "Data Source=PAJANGHINA;" +
             "Initial Catalog=music_app;" +
-            "Integrated Security=True";
+            "Integrated Security=True;" +
+            "TrustServerCertificate=true;";
     }
 }

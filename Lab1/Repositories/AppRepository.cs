@@ -15,11 +15,10 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="AppRepository"/> class.
         /// </summary>
-        /// <param name="connectionString">The connection string used to connect to the database.</param>
-        public AppRepository(string connectionString)
+        public AppRepository()
         {
-            this.ArtistRepository = new ArtistRepository(connectionString, this.dataSet);
-            this.AlbumRepository = new AlbumRepository(connectionString, this.dataSet);
+            this.ArtistRepository = new ArtistRepository(this.dataSet);
+            this.AlbumRepository = new AlbumRepository(this.dataSet);
         }
 
         /// <summary>

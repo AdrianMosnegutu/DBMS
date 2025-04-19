@@ -2,7 +2,7 @@
 {
     using System;
     using System.Windows.Forms;
-    using Lab1.UI;
+    using Lab1.Forms;
 
     /// <summary>
     /// Contains the main entry point for the application.

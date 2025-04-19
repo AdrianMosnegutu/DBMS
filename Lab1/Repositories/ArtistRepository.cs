@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides methods to interact with the "artist" table in the database.
     /// </summary>
-    internal class ArtistRepository(string connectionString, DataSet dataSet)
+    internal class ArtistRepository(DataSet dataSet)
     {
         /// <summary>
         /// Gets the DataTable containing the records from the "artist" table.
@@ -19,7 +19,7 @@
         /// </summary>
         public void LoadRecords()
         {
-            using SqlConnection connection = new(connectionString);
+            using SqlConnection connection = new(AppConstants.ConnectionString);
             connection.Open();
 
             using SqlCommand selectCommand = new(SqlQueryConstants.SelectAllArtistsQuery, connection);

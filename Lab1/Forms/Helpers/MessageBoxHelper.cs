@@ -1,4 +1,4 @@
-﻿namespace Lab1.UI.Helpers
+﻿namespace Lab1.Forms.Helpers
 {
     using System.Windows.Forms;
 
